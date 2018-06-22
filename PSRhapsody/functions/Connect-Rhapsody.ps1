@@ -31,9 +31,9 @@ function Connect-Rhapsody {
         $Credential,
 
         # TOTO: unset default
-        [Parameter()]
+        [Parameter(Mandatory)]
         [uri]
-        $BaseUri = 'https://rhapsodyindev01.slhs.org:8444',
+        $BaseUri,
 
         [switch]
         $SkipCertificateCheck,
