@@ -5,8 +5,16 @@
 	Author = "Andy Simmons"
 	Copyright = "(c) 2018. All rights reserved."
 	Description = "Manage the Rhapsody interface engine from PowerShell"
-	PowerShellVersion = "5"
-	FunctionsToExport = ""
+	PowerShellVersion = "5.0.0.0"
+	FunctionsToExport = @(
+		'Connect-Rhapsody'
+		'Disconnect-Rhapsody'
+		'Get-CommPoint'
+		'Restart-CommPoint'
+		'Start-CommPoint'
+		'Stop-CommPoint'
+	)
+	ScriptsToProcess = '.\helpers\ClassDefinitions.ps1'
 
 	PrivateData = @{
         PSData = @{
