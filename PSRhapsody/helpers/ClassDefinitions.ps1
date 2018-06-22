@@ -5,8 +5,6 @@ using namespace System.Runtime.InteropServices
 [CmdletBinding()]
 param ()
 
-Import-Module TunableSSLValidator -Force
-
 # lame workaround for the lame workaround for non-exportable classes
 . (Join-Path $PSScriptRoot "Get-ResponseSummary.ps1")
 

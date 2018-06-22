@@ -14,6 +14,7 @@
 		'Start-CommPoint'
 		'Stop-CommPoint'
 	)
+	RequiredModules = @('TunableSSLValidator')
 	ScriptsToProcess = '.\helpers\ClassDefinitions.ps1'
 
 	PrivateData = @{

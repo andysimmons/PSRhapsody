@@ -1,6 +1,7 @@
-if (!(Get-Module TunableSSLValidator)) {
+<#if (!(Get-Module TunableSSLValidator)) {
 	Install-Module -Name TunableSSLValidator -Scope CurrentUser -Force -AllowClobber -ErrorAction 'Stop'
 }
+#>
 try { Import-Module -Name TunableSSLValidator -Force -ErrorAction 'Stop' }
 catch { throw $_.Exception }
 
