@@ -11,5 +11,5 @@ $Scripts = Get-ChildItem -Path $FunctionsPath,$HelpersPath -Filter "*.ps1" -file
 foreach ($Script in $Scripts)
 {
 	. $Script.FullName
-}
+} 
 #Disconnect-Rhapsody -ErrorAction 'SilentlyContinue'
