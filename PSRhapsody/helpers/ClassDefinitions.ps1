@@ -14,6 +14,7 @@ enum CommPointAction {
     RESTART
 }
 
+[CmdletBinding()]
 class CommPoint {
 
     # properties

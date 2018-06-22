@@ -17,7 +17,7 @@ function Disconnect-Rhapsody {
     param ()
 
     if ($Global:RhapsodyConnection) {
-        if ($PSCmdlet.ShouldProcess('DISCONNECT', $Global:RhapsodyConnection.BaseUri)) {
+        if ($PSCmdlet.ShouldProcess($Global:RhapsodyConnection.BaseUri, 'DISCONNECT')) {
             try { Remove-Variable -Name RhapsodyConnection -Scope Global -Force -ErrorAction Stop }
             catch { 
                 Write-Error "Error disconnecting from $($Global:RhapsodyConnection.BaseUri)"

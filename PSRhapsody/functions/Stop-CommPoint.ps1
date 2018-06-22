@@ -1,5 +1,17 @@
+<#
+.SYNOPSIS
+    Stops a communication point.
+
+.PARAMETER CommunicationPoint
+    CommPoint object to be stopped.
+
+.EXAMPLE
+    Get-CommPoint -Id 6223 | Stop-CommPoint
+
+    Retrieves the commpoint object with ID 6223 and stops it.
+#>
 function Stop-CommPoint {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
     param ( 
         [Parameter(
             Mandatory, 
@@ -15,7 +27,7 @@ function Stop-CommPoint {
 
     process {
         foreach ($cp in $CommunicationPoint) {
-            if ($PSCmdlet.ShouldProcess('STOP', $cp)) { 
+            if ($PSCmdlet.ShouldProcess($cp, 'STOP')) { 
                 $cp.Stop() 
             }
         }

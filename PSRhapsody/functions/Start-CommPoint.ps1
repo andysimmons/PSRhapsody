@@ -1,5 +1,17 @@
+<#
+.SYNOPSIS
+    Starts a communication point.
+
+.PARAMETER CommunicationPoint
+    CommPoint object to be started.
+
+.EXAMPLE
+    Get-CommPoint -Id 6223 | Start-CommPoint
+
+    Retrieves the commpoint object with ID 6223 and starts it.
+#>
 function Start-CommPoint {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
     param ( 
         [Parameter(
             Mandatory, 
@@ -15,7 +27,7 @@ function Start-CommPoint {
 
     process {
         foreach ($cp in $CommunicationPoint) {
-            if ($PSCmdlet.ShouldProcess('START', $cp)) { 
+            if ($PSCmdlet.ShouldProcess($cp, 'START')) { 
                 $cp.Start() 
             }
         }

@@ -1,5 +1,28 @@
 using namespace System.Runtime.InteropServices
 
+<#
+.SYNOPSIS
+    Connects to a Rhapsody server.
+
+.PARAMETER Credential
+    Credentials used for authentication.
+
+.PARAMETER BaseUri
+    Base URI of the Rhapsody REST API.
+
+.PARAMETER SkipCertificateCheck
+    Bypass SSL certificate validation (e.g. if the server's certificate
+    is self-signed)
+
+.PARAMETER Force
+    Forces an update to the connection configuration used by other cmdlets in this
+    module, even if the connection attempt fails.
+
+.EXAMPLE
+    Connect-Rhapsody -BaseUri 'https://your.rhapsody.server:8444'
+
+    Connects to the Rhapsody server via HTTPS on port 8444, prompting for credentials.
+#>
 function Connect-Rhapsody {
     [CmdletBinding()]
     param (

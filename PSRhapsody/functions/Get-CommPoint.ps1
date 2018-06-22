@@ -1,3 +1,15 @@
+<#
+.SYNOPSIS
+    Retrieves one or more communication points from Rhapsody.
+
+.PARAMETER Id
+    Specifies the communication point ID.
+
+.EXAMPLE
+    Get-CommPoint -Id (6223..6226)
+
+    Retrieves communication points with IDs of 6223, 6224, 6225, 6226.
+#>
 function Get-CommPoint {
     [CmdletBinding()]
     param ( 
