@@ -1,5 +1,5 @@
 if (!(Get-Module TunableSSLValidator)) {
-	Install-Module -Name TunableSSLValidator -Scope CurrentUser -Force -AllowClobber
+	Install-Module -Name TunableSSLValidator -Scope CurrentUser -Force -AllowClobber -ErrorAction 'Stop'
 }
 
 $FunctionsPath = Join-Path $PSScriptRoot "functions"
