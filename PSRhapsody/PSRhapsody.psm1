@@ -1,4 +1,6 @@
-#requires -Module TunableSSLValidator
+if (!(Get-Module TunableSSLValidator)) {
+	Install-Module -Name TunableSSLValidator -Scope CurrentUser -Force
+}
 
 $FunctionsPath = Join-Path $PSScriptRoot "functions"
 $HelpersPath = Join-Path $PSScriptRoot "helpers"

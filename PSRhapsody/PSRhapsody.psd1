@@ -18,7 +18,7 @@
 
 	PrivateData = @{
         PSData = @{
-            #Tags = ""
+            Tags = "Rhapsody"
             LicenseUri = "https://github.com/andysimmons/PSRhapsody/blob/master/PSRhapsody/license"
             ProjectUri = "https://github.com/andysimmons/PSRhapsody"
             #ReleaseNotes = ""
