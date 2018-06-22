@@ -1,3 +1,5 @@
+#requires -Module TunableSSLValidator
+
 using namespace Microsoft.PowerShell.Commands
 using namespace System.Xml
 using namespace System.Runtime.InteropServices
