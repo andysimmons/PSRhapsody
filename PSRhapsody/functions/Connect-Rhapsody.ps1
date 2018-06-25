@@ -1,5 +1,4 @@
-using namespace System.Runtime.InteropServices
-
+using namespace System.Net
 <#
 .SYNOPSIS
     Connects to a Rhapsody server.
@@ -46,11 +45,12 @@ function Connect-Rhapsody {
         BaseUri              = $BaseUri
         Credential           = $Credential
         SkipCertificateCheck = $SkipCertificateCheck
+        PrevMaxIdleTime      = [ServicePointManager]::MaxServicePointIdleTime
     }
 
     if ($Global:RhapsodyConnection -and !$Force) {
         if ($newConnection -ne $Global:RhapsodyConnection) {
-            throw [InvalidOperationException] "Already connected with different params. Run 'Disconnect-Rhapsody' first, or '-Force' to override."
+            throw [System.InvalidOperationException] "Already connected with different params. Run 'Disconnect-Rhapsody' first, or '-Force' to override."
         }
         else {
             Write-Verbose "Already connected. Nothing to do."
@@ -59,17 +59,23 @@ function Connect-Rhapsody {
     }
     else {
         try {
+            if ($SkipCertificateCheck) { 
+                Disable-CertificateValidation -ErrorAction 'Stop'
+            }
+            else { 
+                Enable-CertificateValidation -ErrorAction 'Stop' 
+            }
+
             $iwrParams = @{
                 Credential  = $Credential
                 Uri         = $BaseUri
                 Method      = 'Get'
-                Insecure    = $SkipCertificateCheck
                 ErrorAction = 'Stop'
             }
             $response = Invoke-WebRequest @iwrParams
             $summary = Get-ResponseSummary $response
             
-            if ($response.BaseResponse.StatusDescription -ne 'OK') { throw [ExternalException] $summary }
+            if ($response.BaseResponse.StatusDescription -ne 'OK') { throw [Runtime.InteropServices.ExternalException] $summary }
             else {
                 Write-Verbose $summary 
                 $Global:RhapsodyConnection = $newConnection

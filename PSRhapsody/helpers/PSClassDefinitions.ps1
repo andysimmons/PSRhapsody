@@ -2,18 +2,7 @@ using namespace Microsoft.PowerShell.Commands
 using namespace System.Xml
 using namespace System.Runtime.InteropServices
 
-[CmdletBinding()]
-param ()
-
-# lame workaround for the lame workaround for non-exportable classes
-. (Join-Path $PSScriptRoot "Get-ResponseSummary.ps1")
-
-enum CommPointAction {
-    START
-    STOP
-    RESTART
-}
-
+# communication point
 [CmdletBinding()]
 class CommPoint {
 
@@ -33,33 +22,19 @@ class CommPoint {
     [timespan] $Uptime
     [int]      $ConnectionCount
     [int]      $SentCount
-    [bool]     $SkipCertificateCheck
 
     # constructors
-    CommPoint (
-        [Uri]          $BaseUri,
-        [int]          $Id,
-        [pscredential] $Credential
-    ) { $this.Initialize($BaseUri, $Id, $Credential, $false) }
-
-    CommPoint (
-        [Uri]          $BaseUri,
-        [int]          $Id,
-        [pscredential] $Credential,
-        [bool]         $SkipCertificateCheck
-    ) { $this.Initialize($BaseUri, $Id, $Credential, $SkipCertificateCheck) }
+    CommPoint ([Uri] $BaseUri, [int] $Id, [pscredential] $Credential) { 
+        $this.Initialize($BaseUri, $Id, $Credential)
+    }
 
     # methods
-    hidden [void] Initialize (
-        [Uri]          $BaseUri,
-        [int]          $Id,
-        [pscredential] $Credential,
-        [bool]         $SkipCertificateCheck
-    ) {
+
+    # initialize a CommPoint object
+    hidden [void] Initialize ([Uri] $BaseUri, [int] $Id, [pscredential] $Credential) {
         $this.BaseUri = $BaseUri
         $this.Id = $Id
         $this.Credential = $Credential
-        $this.SkipCertificateCheck = $SkipCertificateCheck
 
         try { $this.Refresh() }
         catch {
@@ -68,6 +43,7 @@ class CommPoint {
         }
     }
 
+    # start a comm point
     [CommPoint] Start () {
         $this.Refresh()
         if ($this.State -eq 'RUNNING') {
@@ -77,6 +53,7 @@ class CommPoint {
         else { return $this.Invoke('Start') }
     }
     
+    # stop a comm point
     [CommPoint] Stop () { 
         $this.Refresh()
         if ($this.State -eq 'STOPPED') {
@@ -86,8 +63,10 @@ class CommPoint {
         return $this.Invoke('Stop') 
     }
     
+    # restart a comm point
     [CommPoint] Restart () { return $this.Invoke('Restart') }
 
+    # invokes an action (start, stop, restart) on a comm point
     hidden [CommPoint] Invoke ([CommPointAction] $Action) {
         $iwrParams = @{
             Uri         = $("{0}api/commpoint/{1}/state" -f $this.BaseUri, $this.Id)
@@ -96,11 +75,17 @@ class CommPoint {
             ContentType = 'Text/Plain'
             Credential  = $this.Credential
             ErrorAction = 'Continue'
-            Insecure    = $this.SkipCertificateCheck
         }
-        
         $response = Invoke-WebRequest @iwrParams
-        $summary = Get-ResponseSummary $response
+
+        # summarize the response as a string
+        $summary = '[HTTP/{0} {1} {2}] {3} {4}' -f @(
+            $response.BaseResponse.ProtocolVersion
+            $response.BaseResponse.StatusCode -as [int]
+            $response.BaseResponse.StatusDescription
+            $response.BaseResponse.Method
+            $response.BaseResponse.ResponseURI
+        )
 
         switch ($response.BaseResponse.StatusCode -as [int]) {
             204 { 
@@ -123,6 +108,7 @@ class CommPoint {
         return $this
     }
 
+    # refresh information about a comm point
     [void] Refresh () {
         try {
             $irmParams = @{
@@ -130,7 +116,6 @@ class CommPoint {
                 Credential  = $this.Credential
                 Method      = 'GET'
                 ErrorAction = 'Stop'
-                Insecure    = $this.SkipCertificateCheck
             }
             $data = (Invoke-RestMethod @irmParams).Data
         }
@@ -148,8 +133,15 @@ class CommPoint {
         }
     }
 
+    # override ToString() 
     [string] ToString () {
         return '{0} (ID: {1})' -f $this.Name, $this.Id
     }
 }
 
+# valid communication point actions
+enum CommPointAction {
+    START
+    STOP
+    RESTART
+}
