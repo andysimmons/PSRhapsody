@@ -56,7 +56,7 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: Https://rhapsodyindev01.slhs.org:8444
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
