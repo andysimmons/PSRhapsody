@@ -4,7 +4,7 @@
 	GUID = "16077f6b-5b6a-4f55-a9b1-f44b05159de8"
 	Author = "Andy Simmons"
 	Copyright = "(c) 2018. All rights reserved."
-	Description = "Manage the Rhapsody interface engine from PowerShell"
+	Description = "PowerShell module for managing communication points within the Rhapsody interface engine."
 	PowerShellVersion = "5.0.0.0"
 	FunctionsToExport = @(
 		'Connect-Rhapsody'
