@@ -7,9 +7,7 @@ using namespace System.Runtime.InteropServices
 class CommPoint {
 
     # properties
-    hidden [pscredential] $Credential
-    hidden [Uri]          $BaseUri
-    
+
     [int]      $Id
     [string]   $Name
     [string]   $FolderPath
@@ -22,6 +20,9 @@ class CommPoint {
     [timespan] $Uptime
     [int]      $ConnectionCount
     [int]      $SentCount
+    
+    hidden [pscredential] $Credential
+    hidden [Uri]          $BaseUri
 
     # constructors
     CommPoint ([Uri] $BaseUri, [int] $Id, [pscredential] $Credential) { 
@@ -133,13 +134,11 @@ class CommPoint {
         }
     }
 
-    # override ToString() 
-    [string] ToString () {
-        return '{0} (ID: {1})' -f $this.Name, $this.Id
-    }
+    # override ToString()
+    [string] ToString () { return '{0} (ID: {1})' -f $this.Name, $this.Id }
 }
 
-# valid communication point actions
+# communication point actions
 enum CommPointAction {
     START
     STOP

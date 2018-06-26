@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Throws an error unless the Rhapsody connection hasn't been set up.
+    Throws an error if the Rhapsody connection hasn't been configured..
 #>
 function Confirm-RhapsodyConnection {
     [CmdletBinding()]

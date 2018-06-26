@@ -13,7 +13,7 @@ Connects to a Rhapsody server.
 ## SYNTAX
 
 ```
-Connect-Rhapsody [-Credential] <PSCredential> [[-BaseUri] <Uri>] [-SkipCertificateCheck] [-Force]
+Connect-Rhapsody [-Credential] <PSCredential> [-BaseUri] <Uri> [-SkipCertificateCheck] [-Force]
  [<CommonParameters>]
 ```
 
@@ -31,21 +31,6 @@ Connects to the Rhapsody server via HTTPS on port 8444, prompting for credential
 
 ## PARAMETERS
 
-### -BaseUri
-Base URI of the Rhapsody REST API.
-
-```yaml
-Type: Uri
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: Https://rhapsodyindev01.slhs.org:8444
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Credential
 Credentials used for authentication.
 
@@ -61,9 +46,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Force
-Forces an update to the connection configuration used by other cmdlets in this
-module, even if the connection attempt fails.
+### -BaseUri
+Base URI of the Rhapsody REST API.
+
+```yaml
+Type: Uri
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 2
+Default value: Https://rhapsodyindev01.slhs.org:8444
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SkipCertificateCheck
+Bypass SSL certificate validation (e.g.
+if the server's certificate
+is self-signed)
 
 ```yaml
 Type: SwitchParameter
@@ -77,10 +78,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SkipCertificateCheck
-Bypass SSL certificate validation (e.g.
-if the server's certificate
-is self-signed)
+### -Force
+Forces an update to the connection configuration used by other cmdlets in this
+module, even if the connection attempt fails.
 
 ```yaml
 Type: SwitchParameter

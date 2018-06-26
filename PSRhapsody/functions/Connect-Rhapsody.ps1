@@ -1,4 +1,5 @@
 using namespace System.Net
+using namespace System.Runtime.InteropServices
 <#
 .SYNOPSIS
     Connects to a Rhapsody server.
@@ -15,7 +16,8 @@ using namespace System.Net
 
 .PARAMETER Force
     Forces an update to the connection configuration used by other cmdlets in this
-    module, even if the connection attempt fails.
+    module, even if the connection attempt fails and/or another connection configuration
+    is still in memory.
 
 .EXAMPLE
     Connect-Rhapsody -BaseUri 'https://your.rhapsody.server:8444'
@@ -29,7 +31,6 @@ function Connect-Rhapsody {
         [pscredential]
         $Credential,
 
-        # TOTO: unset default
         [Parameter(Mandatory)]
         [uri]
         $BaseUri,
@@ -50,7 +51,7 @@ function Connect-Rhapsody {
 
     if ($Global:RhapsodyConnection -and !$Force) {
         if ($newConnection -ne $Global:RhapsodyConnection) {
-            throw [System.InvalidOperationException] "Already connected with different params. Run 'Disconnect-Rhapsody' first, or '-Force' to override."
+            throw [InvalidOperationException] "Already connected with different params. Run 'Disconnect-Rhapsody' first or use -Force to override."
         }
         else {
             Write-Verbose "Already connected. Nothing to do."
@@ -75,11 +76,14 @@ function Connect-Rhapsody {
             $response = Invoke-WebRequest @iwrParams
             $summary = Get-ResponseSummary $response
             
-            if ($response.BaseResponse.StatusDescription -ne 'OK') { throw [Runtime.InteropServices.ExternalException] $summary }
-            else {
+            if ($response.BaseResponse.StatusDescription -eq 'OK') {
                 Write-Verbose $summary 
                 $Global:RhapsodyConnection = $newConnection
                 $Global:RhapsodyConnection
+            }
+            else {
+                if ($SkipCertificateCheck) { Enable-CertificateValidation }
+                throw [ExternalException] $summary
             }
         }
         catch {
@@ -87,10 +91,14 @@ function Connect-Rhapsody {
                 if ($summary) { Write-Warning $summary }
                 Write-Warning "Rhapsody API connection failed! Forcing new connection settings anyway. Good luck."
                 $Global:RhapsodyConnection = $newConnection
+                $Global:RhapsodyConnection
             }
-            if ($summary) { Write-Error $summary }
-            Write-Error "Rhapsody API connection failed!"
-            throw $_.Exception
+            else {
+                if ($summary) { Write-Error $summary }
+                Write-Error "Rhapsody API connection failed!"
+                if ($SkipCertificateCheck) { Enable-CertificateValidation }
+                throw $_.Exception
+            }
         }
     }
 }
