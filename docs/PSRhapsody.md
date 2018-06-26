@@ -11,20 +11,20 @@ Locale: en-US
 PowerShell module for managing communication points within the Rhapsody interface engine.
 
 ## PSRhapsody Cmdlets
-### [Connect-Rhapsody](docs/Connect-Rhapsody.md)
+### [Connect-Rhapsody](Connect-Rhapsody.md)
 Connect to a Rhapsody server.
 
-### [Disconnect-Rhapsody](docs/Disconnect-Rhapsody.md)
+### [Disconnect-Rhapsody](Disconnect-Rhapsody.md)
 Disconnect from a Rhapsody server.
 
-### [Get-CommPoint](docs/Get-CommPoint.md)
+### [Get-CommPoint](Get-CommPoint.md)
 Retrieve communication point.
 
-### [Restart-CommPoint](docs/Restart-CommPoint.md)
+### [Restart-CommPoint](Restart-CommPoint.md)
 Restart communication point.
 
-### [Start-CommPoint](docs/Start-CommPoint.md)
+### [Start-CommPoint](Start-CommPoint.md)
 Start communication point.
 
-### [Stop-CommPoint](docs/Stop-CommPoint.md)
+### [Stop-CommPoint](Stop-CommPoint.md)
 Stop communication point.
