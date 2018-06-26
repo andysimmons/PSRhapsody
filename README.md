@@ -23,7 +23,7 @@ Disconnect from a Rhapsody server.
 Retrieve communication point.
 
 ### [Restart-CommPoint](docs/Restart-CommPoint.md)
-Stop communication point.
+Restart communication point.
 
 ### [Start-CommPoint](docs/Start-CommPoint.md)
 Start communication point.
