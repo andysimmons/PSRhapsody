@@ -68,10 +68,11 @@ function Connect-Rhapsody {
             }
 
             $iwrParams = @{
-                Credential  = $Credential
-                Uri         = $BaseUri
-                Method      = 'Get'
-                ErrorAction = 'Stop'
+                Credential      = $Credential
+                Uri             = $BaseUri
+                Method          = 'Get'
+                ErrorAction     = 'Stop'
+                UseBasicParsing = $True
             }
             $response = Invoke-WebRequest @iwrParams
             $summary = Get-ResponseSummary $response
