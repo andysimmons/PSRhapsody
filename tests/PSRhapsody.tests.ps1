@@ -9,9 +9,6 @@ else {
 
 $ModulePath = Join-Path $ProjectPath $ModuleName
 
-Import-Module $ModulePath
-
-
 InModuleScope -ModuleName $ModuleName {
     # can't really mock much here since [CommPoint] objects can't be instantiated without a connection
     # and everything except Get-CommPoint requires a [CommPoint] to run. 
