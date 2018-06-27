@@ -61,7 +61,7 @@ class CommPoint {
             Write-Warning "Communication point was already stopped."
             return $this
         }
-        return $this.Invoke('Stop') 
+        return $this.Invoke('Stop')
     }
     
     # restart a comm point
