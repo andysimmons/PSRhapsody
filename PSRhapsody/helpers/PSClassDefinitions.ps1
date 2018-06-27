@@ -70,12 +70,13 @@ class CommPoint {
     # invokes an action (start, stop, restart) on a comm point
     hidden [CommPoint] Invoke ([CommPointAction] $Action) {
         $iwrParams = @{
-            Uri         = $("{0}api/commpoint/{1}/state" -f $this.BaseUri, $this.Id)
-            Method      = 'PUT'
-            Body        = $Action
-            ContentType = 'Text/Plain'
-            Credential  = $this.Credential
-            ErrorAction = 'Continue'
+            Uri             = $("{0}api/commpoint/{1}/state" -f $this.BaseUri, $this.Id)
+            Method          = 'PUT'
+            Body            = $Action
+            ContentType     = 'Text/Plain'
+            Credential      = $this.Credential
+            ErrorAction     = 'Continue'
+            UseBasicParsing = $true
         }
         $response = Invoke-WebRequest @iwrParams
 
@@ -96,7 +97,8 @@ class CommPoint {
             }
             500 { 
                 Write-Error $summary
-                throw [ExternalException] "State change failed!" }
+                throw [ExternalException] "State change failed!" 
+            }
             400 {
                 Write-Error $summary
                 Write-Error "Documented comm point actions: $([Enum]::GetNames([CommPointAction]) -join ', ')"
@@ -113,10 +115,11 @@ class CommPoint {
     [void] Refresh () {
         try {
             $irmParams = @{
-                Uri         = $("{0}api/commpoint/{1}" -f $this.BaseUri, $this.Id)
-                Credential  = $this.Credential
-                Method      = 'GET'
-                ErrorAction = 'Stop'
+                Uri             = $("{0}api/commpoint/{1}" -f $this.BaseUri, $this.Id)
+                Credential      = $this.Credential
+                Method          = 'GET'
+                ErrorAction     = 'Stop'
+                UseBasicParsing = $true
             }
             $data = (Invoke-RestMethod @irmParams).Data
         }

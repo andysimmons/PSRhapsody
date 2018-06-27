@@ -10,8 +10,8 @@ else {
 $ModulePath = Join-Path $ProjectPath $ModuleName
 
 InModuleScope -ModuleName $ModuleName {
-    # can't really mock much here since [CommPoint] objects can't be instantiated without a connection
-    # and everything except Get-CommPoint requires a [CommPoint] to run. 
+    # Hard to mock much in here without making a bunch of useless tests. This module primarily
+    # deals with external system states.
     Context 'Public Functions' {
         Describe 'Get-CommPoint' {
             It 'Requires a connection' {
@@ -56,17 +56,16 @@ InModuleScope -ModuleName $ModuleName {
     }
         
     Context 'Private Functions' {
-
         Describe 'Disable-CertificateValidation' { 
             Disable-CertificateValidation -WarningAction 'SilentlyContinue'
             $spCallback = [Net.ServicePointManager]::ServerCertificateValidationCallback
             $spTimeout = [Net.ServicePointManager]::MaxServicePointIdleTime
             
             It 'Disables SSL certificate validation' {
-                { $spCallback.Method[0].Name | Should Be 'ReturnTrue' }
+                $spCallback.Method[0].Name | Should Be 'ReturnTrue'
             }
             It "Disables service point caching" {
-                { $spTimeout | Should Be 1 }
+                $spTimeout | Should Be 1
             }
         }
         
@@ -76,10 +75,10 @@ InModuleScope -ModuleName $ModuleName {
             $spTimeout = [Net.ServicePointManager]::MaxServicePointIdleTime
             
             It 'Enforces SSL certificate validation' {
-                { $spCallback | Should BeNullOrEmpty }
+                $spCallback | Should BeNullOrEmpty
             }
             It "Enables service point caching" {
-                { { $spTimeout -gt 1 } | Should Be $true }
+                { $spTimeout -gt 1 } | Should Be $true
             }
         }
     }

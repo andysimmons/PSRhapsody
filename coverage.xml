@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE report PUBLIC "-//JACOCO//DTD Report 1.0//EN" "report.dtd">
+<report name="Pester (06/27/2018 12:40:29)"><sessioninfo id="this" start="1530103227496" dump="1530103229800" /><counter type="INSTRUCTION" missed="0" covered="5" /><counter type="LINE" missed="0" covered="5" /><counter type="METHOD" missed="0" covered="1" /><counter type="CLASS" missed="0" covered="1" /></report>
